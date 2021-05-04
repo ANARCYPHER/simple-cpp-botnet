@@ -1,0 +1,2 @@
+command::powershell_command1;
+command::powershell_command2;
