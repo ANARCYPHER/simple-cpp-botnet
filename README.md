@@ -1,5 +1,6 @@
 # simple-cpp-botnet
 this is simple c++ botnet
+
 requirements: windows, g++/mingw, node.js
 
 how to start:
